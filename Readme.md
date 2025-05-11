@@ -14,15 +14,37 @@ Stages:
 - [ ] Code Optimisation
 - [ ] Machine Code Generation
 
+## Setup
+
+The project uses `Cmake` as the build-system generator and `Ninja` (optional) as the build-tool
+- Make sure `Cmake` is present in your system
+- Commands:
+```
+mkdir build
+cd build
+cmake ..` or if you have *Ninja* use `cmake -G Ninja ..
+```
+
 ## Build
 
-The project uses `Cmake` as the build-system generator and `Ninja` as the build-tool
+After complete setup run the following command (assuming you are in root directory):
+```
+cmake --build build
+```
 
 ## Run
 
+After completing Setup and Build steps run the following command:
+```./build/ctoy/ctoy_compiler```
 
 ## Testing
 
+After completing Setup and Buld steps run the following commands
+
+```
+cd build
+ctest
+```
 
 ## References
 
