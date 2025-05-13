@@ -2,6 +2,7 @@
 
 #include <string>
 #include <ostream>
+#include <iostream>
 
 namespace frontend
 {
@@ -12,11 +13,13 @@ namespace frontend
     enum TokenType
     {
         KEYWORD,
-        CONSTANT_LITERAL,
+        CONSTANT,
         STRING_LITERAL,
         IDENTIFIER,
-        OPERATOR
+        PUNCTUATOR
     };
+
+    std::ostream &operator<<(std::ostream &os, const TokenType &type);
 
     class Node
     {
@@ -34,11 +37,11 @@ namespace frontend
         location_t get_location() const { return location; }
         position_t get_position() const { return position; }
         TokenType get_token_type() const { return token_type; }
+        void print(std::ostream &os = std::cout) const;
     };
 
-}
-
-inline std::ostream &operator<<(std::ostream &os, const frontend::location_t &loc)
-{
-    return os << "[" << loc.first << "-" << loc.second << "]";
+    inline std::ostream &operator<<(std::ostream &os, const frontend::location_t &loc)
+    {
+        return os << "[" << loc.first << "-" << loc.second << "]";
+    }
 }

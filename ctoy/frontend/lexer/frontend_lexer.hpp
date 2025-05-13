@@ -7,7 +7,7 @@
 #undef yyFlexLexer
 #endif
 
-#include <frontend/util/ast.hpp>
+#include <frontend/utils/ast.hpp>
 
 namespace frontend
 {

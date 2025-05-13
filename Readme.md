@@ -6,7 +6,7 @@ Each stage of the compiler is provided as seperate releases
 The compiler uses `flex` and `bison` 
 
 Stages:
-- [ ] Lexical Analysis
+- [x] Lexical Analysis
 - [ ] Syntax Analysis
 - [ ] Semantic Analysis
 - [ ] Pre Processor

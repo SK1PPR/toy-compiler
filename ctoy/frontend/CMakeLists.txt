@@ -4,13 +4,19 @@ cmake_minimum_required(VERSION 3.10)
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
+# Find all source files recursively
+file(GLOB_RECURSE FRONTEND_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
+)
+
 # Set output directories for generated files
 set(PARSER_OUTPUT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/parser)
 
 # Generate parser files
 BISON_TARGET(
     FrontendParser
-    ${CMAKE_CURRENT_SOURCE_DIR}/parser/frontendParser.yy
+    ${CMAKE_CURRENT_SOURCE_DIR}/parser/parser.yy
     ${CMAKE_CURRENT_BINARY_DIR}/frontendParser.tab.cc
     DEFINES_FILE ${CMAKE_CURRENT_BINARY_DIR}/frontendParser.tab.hh
 )
@@ -18,7 +24,7 @@ BISON_TARGET(
 # Generate lexer files
 FLEX_TARGET(
     FrontendLexer
-    ${CMAKE_CURRENT_SOURCE_DIR}/lexer/frontendLexer.ll
+    ${CMAKE_CURRENT_SOURCE_DIR}/lexer/lexer.ll
     ${CMAKE_CURRENT_BINARY_DIR}/lex.yy_frontend_.cc
 )
 
@@ -49,7 +55,7 @@ add_custom_target(copy_parser_files ALL
 
 # Create a library for the frontend components
 add_library(frontend
-    frontend.cpp
+    ${FRONTEND_SOURCES}
     ${PARSER_OUTPUT_DIR}/frontendParser.tab.cc
     ${FLEX_FrontendLexer_OUTPUTS}
 )
