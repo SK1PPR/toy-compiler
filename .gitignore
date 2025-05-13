@@ -1,2 +1,5 @@
 .vscode
 build
+frontendParser.tab.cc
+frontendParser.tab.hh
+old_lexer.ll

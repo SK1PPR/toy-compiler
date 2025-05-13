@@ -16,8 +16,10 @@ Stages:
 
 ## Setup
 
-The project uses `Cmake` as the build-system generator and `Ninja` (optional) as the build-tool
+The project uses `Cmake` as the build-system generator and `Ninja` (optional) as the build-tool.
+The project also uses `google-test` for testing.
 - Make sure `Cmake` is present in your system
+- Make sure `gtest` is present in your system
 - Commands:
 ```
 mkdir build

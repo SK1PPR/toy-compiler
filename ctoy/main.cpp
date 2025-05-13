@@ -1,7 +1,7 @@
 #include <iostream>
+#include <frontend/frontend.hpp>
 
-int main() {
-    // This is a simple C++ program that prints "Hello, World!" to the console.
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+int main()
+{
+    return parse_frontend();
 }
