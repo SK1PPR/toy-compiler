@@ -3,13 +3,13 @@
 
 %code requires {
     #include <string>
-    #include "../lexer/location_t.hh"
+    #include "../util/ast.hpp"
     #include "../lexer/FrontendLexer.hh"
 }
 
 %define api.namespace {frontend}
 %define api.parser.class {FrontendBisonParser}
-%define api.value.type {std::string}
+%define api.value.type {Node*}
 %define api.location.type {location_t}
 
 %locations
@@ -47,7 +47,7 @@
 
 %%
 
-hello_world: HELLO WORLD '!' { std::cout << "Goodbye " << $WORLD << '!' << std::endl; }
+hello_world: HELLO WORLD '!' { std::cout << "Goodbye " << $2->get_lexeme() << '!' << std::endl; }
 
 %%
 
