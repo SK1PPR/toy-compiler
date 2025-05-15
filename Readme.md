@@ -7,7 +7,7 @@ The compiler uses `flex` and `bison`
 
 Stages:
 - [x] Lexical Analysis
-- [ ] Syntax Analysis
+- [x] Syntax Analysis
 - [ ] Semantic Analysis
 - [ ] Pre Processor
 - [ ] Intermediate Code Generation

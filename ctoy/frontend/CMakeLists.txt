@@ -19,6 +19,7 @@ BISON_TARGET(
     ${CMAKE_CURRENT_SOURCE_DIR}/parser/parser.yy
     ${CMAKE_CURRENT_BINARY_DIR}/frontendParser.tab.cc
     DEFINES_FILE ${CMAKE_CURRENT_BINARY_DIR}/frontendParser.tab.hh
+    COMPILE_FLAGS "-Wcounterexamples"
 )
 
 # Generate lexer files
