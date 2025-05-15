@@ -5,6 +5,7 @@
     #include <string>
     #include "../utils/ast.hpp"
     #include "../lexer/frontend_lexer.hpp"
+	#include <frontend/utils/types.hpp>
 }
 
 %define api.namespace {frontend}
