@@ -3,9 +3,9 @@
 namespace frontend
 {
 
-    void Node::print(std::ostream &os) const
+    void Terminal::print(std::ostream &os) const
     {
-        os << "Node(" << lexeme << ", " << location << ", " << position << ", " << token_type << ")" << std::endl;
+        os << "| " << lexeme << ", " << location << ", " << position << ", " << token_type << " |" << std::endl;
     }
 
     std::ostream &operator<<(std::ostream &os, const TokenType &type)

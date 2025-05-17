@@ -13,7 +13,7 @@ namespace frontend
 {
     // Forward declarations
     class FrontendBisonParser;
-    using semantic_type = Node *;
+    using semantic_type = Terminal *;
     using location_type = location_t;
 
     class FrontendLexer : public yy_frontend_FlexLexer
@@ -38,6 +38,6 @@ namespace frontend
         std::size_t endPos = yyleng - rightTrim;
         if (trimCr && endPos != 0 && yytext[endPos - 1] == '\r')
             --endPos;
-        *yylval = new Node(std::string(yytext + leftTrim, yytext + endPos), location_t(currentLine, currentLine), 0, TokenType::IDENTIFIER);
+        *yylval = new Terminal(std::string(yytext + leftTrim, yytext + endPos), location_t(currentLine, currentLine), 0, TokenType::IDENTIFIER);
     }
 }

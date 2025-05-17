@@ -10,7 +10,7 @@
 
 %define api.namespace {frontend}
 %define api.parser.class {FrontendBisonParser}
-%define api.value.type {Node*}
+%define api.value.type {Terminal*}
 %define api.location.type {location_t}
 
 %locations
@@ -77,7 +77,7 @@
 %nterm init_declarator
 %nterm initializer
 %nterm initializer_list
-%nterm typedef_name
+/* %nterm typedef_name */
 %nterm compound_statement
 %nterm statement_list
 %nterm statement
@@ -136,13 +136,12 @@
 %left DOT PTR_OP LEFT_BRACKET LEFT_PAREN
 
 /* Punctuators */
-%token ELLIPSIS RIGHT_ASSIGN LEFT_ASSIGN ADD_ASSIGN SUB_ASSIGN MUL_ASSIGN DIV_ASSIGN MOD_ASSIGN AND_OP OR_OP LE_OP GE_OP EQ_OP NE_OP
-%token SEMICOLON LEFT_BRACE RIGHT_BRACE COMMA COLON ASSIGN LEFT_PAREN RIGHT_PAREN LEFT_BRACKET RIGHT_BRACKET DOT AMPERSAND EXCLAMATION
-%token TILDE MINUS PLUS ASTERISK SLASH PERCENT LESS_THAN GREATER_THAN CARET PIPE QUESTION
+%token ELLIPSIS
+%token SEMICOLON LEFT_BRACE RIGHT_BRACE COMMA RIGHT_PAREN RIGHT_BRACKET
 
 /* Resolve dangling else */
-%precedence THEN
-%precedence ELSE
+%nonassoc LOWER_THAN_ELSE
+%nonassoc ELSE
 
 %expect 0
 
@@ -329,7 +328,6 @@ type_specifier
 	| UNSIGNED
 	| struct_or_union_specifier
 	| enum_specifier
-	| typedef_name
 	;
 
 struct_or_union_specifier
@@ -511,7 +509,7 @@ expression_statement
 	;
 
 selection_statement
-	: IF LEFT_PAREN expression RIGHT_PAREN statement %prec THEN
+	: IF LEFT_PAREN expression RIGHT_PAREN statement %prec LOWER_THAN_ELSE
 	| IF LEFT_PAREN expression RIGHT_PAREN statement ELSE statement
 	| SWITCH LEFT_PAREN expression RIGHT_PAREN statement
 	;
