@@ -34,14 +34,15 @@ namespace frontend
     class NonTerminal : public Node
     {
     private:
-        std::vector<std::unique_ptr<Node>> children;
+        std::vector<Node *> children; // Changed from unique_ptr to raw pointer since Bison manages memory
 
     public:
+        NonTerminal() = default;
         NonTerminal(std::string lexeme) : Node(std::move(lexeme)) {}
 
-        void add_child(std::unique_ptr<Node> child)
+        void add_child(Node *child) // Changed to accept raw pointer
         {
-            children.push_back(std::move(child));
+            children.push_back(child);
         }
 
         void print(std::ostream &os = std::cout) const override
