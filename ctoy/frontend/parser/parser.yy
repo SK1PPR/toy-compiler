@@ -3,14 +3,14 @@
 
 %code requires {
     #include <string>
-    #include "../utils/ast.hpp"
-    #include "../lexer/frontend_lexer.hpp"
+    #include <frontend/utils/ast.hpp>
+    #include <frontend/lexer/frontend_lexer.hpp>
 	#include <frontend/utils/types.hpp>
 }
 
 %define api.namespace {frontend}
 %define api.parser.class {FrontendBisonParser}
-%define api.value.type {Terminal*}
+%define api.value.type {Terminal}
 %define api.location.type {location_t}
 
 %locations

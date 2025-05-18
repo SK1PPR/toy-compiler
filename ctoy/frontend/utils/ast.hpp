@@ -17,22 +17,14 @@ namespace frontend
     {
     protected:
         std::string lexeme;
-        std::vector<std::unique_ptr<Node>> children;
 
     public:
+        Node() = default;
         Node(std::string lexeme) : lexeme(std::move(lexeme)) {}
-        void add_child(std::unique_ptr<Node> child)
-        {
-            children.push_back(std::move(child));
-        }
 
         virtual void print(std::ostream &os = std::cout) const
         {
             os << lexeme << std::endl;
-            for (const auto &child : children)
-            {
-                child->print(os);
-            }
         }
 
         virtual ~Node() = default;
@@ -41,8 +33,17 @@ namespace frontend
     // Derived class for non-terminal nodes
     class NonTerminal : public Node
     {
+    private:
+        std::vector<std::unique_ptr<Node>> children;
+
     public:
         NonTerminal(std::string lexeme) : Node(std::move(lexeme)) {}
+
+        void add_child(std::unique_ptr<Node> child)
+        {
+            children.push_back(std::move(child));
+        }
+
         void print(std::ostream &os = std::cout) const override
         {
             os << "NonTerminal: " << lexeme << std::endl;
@@ -72,6 +73,7 @@ namespace frontend
         TokenType token_type;
 
     public:
+        Terminal() = default;
         Terminal(std::string lexeme, location_t location, position_t position, TokenType token_type)
             : Node(std::move(lexeme)), location(location), position(position), token_type(token_type) {}
 
