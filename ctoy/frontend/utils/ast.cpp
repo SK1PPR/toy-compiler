@@ -1,11 +1,34 @@
 #include <frontend/utils/ast.hpp>
+#include <iomanip>
 
 namespace frontend
 {
 
+    std::ostream *lexer_output = nullptr;
+
+    Terminal::Terminal(std::string _lexeme, location_t location, position_t position, TokenType token_type)
+        : Node(std::move(_lexeme)), location(location), position(position), token_type(token_type)
+    {
+        // If output stream is set, print the terminal
+        if (lexer_output)
+        {
+            *lexer_output << "| " << std::setw(25) << std::left << lexeme
+                          << " | [" << std::setw(3) << std::right << location.first
+                          << "-" << std::setw(3) << std::left << location.second << "]"
+                          << " | " << std::setw(15) << std::left << position
+                          << " | " << std::setw(15) << std::left << token_type
+                          << " |" << std::endl;
+        }
+    }
+
     void Terminal::print(std::ostream &os) const
     {
-        os << "| " << lexeme << ", " << location << ", " << position << ", " << token_type << " |" << std::endl;
+        os << "| " << std::setw(25) << std::left << lexeme
+           << " | [" << std::setw(3) << std::right << location.first
+           << "-" << std::setw(3) << std::left << location.second << "]"
+           << " | " << std::setw(15) << std::left << position
+           << " | " << std::setw(15) << std::left << token_type
+           << " |" << std::endl;
     }
 
     std::ostream &operator<<(std::ostream &os, const TokenType &type)

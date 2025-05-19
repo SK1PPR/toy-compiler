@@ -5,12 +5,15 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <sstream>
 
 namespace frontend
 {
 
     using position_t = std::size_t;
     using location_t = std::pair<std::size_t, std::size_t>;
+
+    extern std::ostream *lexer_output;
 
     // Base class for AST nodes
     class Node
@@ -75,8 +78,7 @@ namespace frontend
 
     public:
         Terminal() = default;
-        Terminal(std::string lexeme, location_t location, position_t position, TokenType token_type)
-            : Node(std::move(lexeme)), location(location), position(position), token_type(token_type) {}
+        Terminal(std::string lexeme, location_t location, position_t position, TokenType token_type);
 
         std::string get_lexeme() const { return lexeme; }
         location_t get_location() const { return location; }

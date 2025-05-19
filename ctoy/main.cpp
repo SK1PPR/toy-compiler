@@ -12,5 +12,5 @@ int main(int argc, char *argv[])
 
     std::ifstream input(argv[1]);
 
-    return parse_frontend(input);
+    return parse_frontend(input, argv[1], true, false);
 }
