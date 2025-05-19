@@ -5,6 +5,10 @@ namespace frontend
 {
 
     std::ostream *lexer_output = nullptr;
+    std::ostream *ast_output = nullptr;
+
+    // Initialize the static counter
+    size_t Node::node_counter = 0;
 
     Terminal::Terminal(std::string _lexeme, location_t location, position_t position, TokenType token_type)
         : Node(std::move(_lexeme)), location(location), position(position), token_type(token_type)

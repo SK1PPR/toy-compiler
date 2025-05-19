@@ -1579,7 +1579,7 @@ program
     : translation_unit {
 		auto nt = new NonTerminal("program");
 		nt->add_child(yystack_[0].value);
-		nt->print();
+		nt->dotify();
 		yylhs.value = nt;
 	}
     ;

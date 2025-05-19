@@ -16,11 +16,13 @@ Stages:
 
 ## Setup
 
-The project uses `Cmake` as the build-system generator and `Ninja` (optional) as the build-tool.
-The project also uses `google-test` for testing.
-- Make sure `Cmake` is present in your system
-- Make sure `gtest` is present in your system
-- Commands:
+The project requires the following packages to be present
+- `Cmake` for the build-system generator
+- `Ninja` (optional) as the build-tool
+- `google-test` for running tests
+- `graphviz` (optional) required to generate the AST image.
+
+After you make sure that all required packages are present use the following commands:
 ```
 mkdir build
 cd build
@@ -38,6 +40,10 @@ cmake --build build
 
 After completing Setup and Build steps run the following command:
 ```./build/ctoy/ctoy_compiler```
+
+Flags:
+- `-l` to see output of lexical phase
+- `-s` to see the abstract syntax tree of your input (requires `graphviz`)
 
 ## Testing
 

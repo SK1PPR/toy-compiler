@@ -14,12 +14,28 @@ namespace frontend
     using location_t = std::pair<std::size_t, std::size_t>;
 
     extern std::ostream *lexer_output;
+    extern std::ostream *ast_output;
 
     // Base class for AST nodes
     class Node
     {
     protected:
         std::string lexeme;
+        static size_t node_counter; // Add static counter here
+
+        // Helper function to escape quotes in labels
+        std::string escape_quotes(const std::string &str) const
+        {
+            std::string result;
+            for (char c : str)
+            {
+                if (c == '"')
+                    result += "\\\"";
+                else
+                    result += c;
+            }
+            return result;
+        }
 
     public:
         Node() = default;
@@ -30,9 +46,10 @@ namespace frontend
             os << lexeme << std::endl;
         }
 
+        virtual void dotify(std::ostream &os = *ast_output) const = 0;
+
         virtual ~Node() = default;
     };
-
     // Derived class for non-terminal nodes
     class NonTerminal : public Node
     {
@@ -54,6 +71,26 @@ namespace frontend
             for (const auto &child : children)
             {
                 child->print(os);
+            }
+        }
+
+        void dotify(std::ostream &os = *ast_output) const override
+        {
+            if (!ast_output)
+                return; // Skip if ast_output is null
+
+            // Create a unique ID for this node
+            size_t current_id = node_counter++;
+
+            // Output node definition
+            os << "    node" << current_id << " [label=\"" << escape_quotes(lexeme) << "\", shape=box];" << std::endl;
+
+            // Output edges to children
+            for (const auto &child : children)
+            {
+                size_t child_id = node_counter;
+                child->dotify(os);
+                os << "    node" << current_id << " -> node" << child_id << ";" << std::endl;
             }
         }
     };
@@ -85,6 +122,19 @@ namespace frontend
         position_t get_position() const { return position; }
         TokenType get_token_type() const { return token_type; }
         void print(std::ostream &os = std::cout) const;
+
+        void dotify(std::ostream &os = *ast_output) const override
+        {
+            if (!ast_output)
+                return; // Skip if ast_output is null
+
+            // Create a unique ID for this node
+            size_t current_id = node_counter++;
+
+            // Output node definition with token type and lexeme
+            os << "    node" << current_id << " [label=\"" << escape_quotes(lexeme) << "\\n"
+               << token_type << "\", shape=ellipse];" << std::endl;
+        }
     };
 
     inline std::ostream &operator<<(std::ostream &os, const frontend::location_t &loc)
