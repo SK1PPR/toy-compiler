@@ -159,19 +159,13 @@
 
 primary_expression
 	: IDENTIFIER {
-		auto nt = new NonTerminal("primary_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| CONSTANT {
-		auto nt = new NonTerminal("primary_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| STRING_LITERAL {
-		auto nt = new NonTerminal("primary_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| LEFT_PAREN expression RIGHT_PAREN {
 		auto nt = new NonTerminal("primary_expression");
@@ -184,9 +178,7 @@ primary_expression
 
 postfix_expression
 	: primary_expression {
-		auto nt = new NonTerminal("postfix_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| postfix_expression LEFT_BRACKET expression RIGHT_BRACKET {
 		auto nt = new NonTerminal("postfix_expression");
@@ -241,9 +233,7 @@ postfix_expression
 
 argument_expression_list
 	: assignment_expression {
-		auto nt = new NonTerminal("argument_expression_list");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| argument_expression_list COMMA assignment_expression {
 		auto nt = new NonTerminal("argument_expression_list");
@@ -256,9 +246,7 @@ argument_expression_list
 
 unary_expression
 	: postfix_expression {
-		auto nt = new NonTerminal("unary_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| INC_OP unary_expression {
 		auto nt = new NonTerminal("unary_expression");
@@ -329,9 +317,7 @@ unary_operator
 
 cast_expression
 	: unary_expression {
-		auto nt = new NonTerminal("cast_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| LEFT_PAREN type_name RIGHT_PAREN cast_expression {
 		auto nt = new NonTerminal("cast_expression");
@@ -345,9 +331,7 @@ cast_expression
 
 multiplicative_expression
 	: cast_expression {
-		auto nt = new NonTerminal("multiplicative_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| multiplicative_expression ASTERISK cast_expression {
 		auto nt = new NonTerminal("multiplicative_expression");
@@ -374,9 +358,7 @@ multiplicative_expression
 
 additive_expression
 	: multiplicative_expression {
-		auto nt = new NonTerminal("additive_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| additive_expression PLUS multiplicative_expression {
 		auto nt = new NonTerminal("additive_expression");
@@ -396,9 +378,7 @@ additive_expression
 
 shift_expression
 	: additive_expression {
-		auto nt = new NonTerminal("shift_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| shift_expression LEFT_OP additive_expression {
 		auto nt = new NonTerminal("shift_expression");
@@ -418,9 +398,7 @@ shift_expression
 
 relational_expression
 	: shift_expression {
-		auto nt = new NonTerminal("relational_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| relational_expression LESS_THAN shift_expression {
 		auto nt = new NonTerminal("relational_expression");
@@ -454,9 +432,7 @@ relational_expression
 
 equality_expression
 	: relational_expression {
-		auto nt = new NonTerminal("equality_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| equality_expression EQ_OP relational_expression {
 		auto nt = new NonTerminal("equality_expression");
@@ -476,9 +452,7 @@ equality_expression
 
 and_expression
 	: equality_expression {
-		auto nt = new NonTerminal("and_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| and_expression AMPERSAND equality_expression {
 		auto nt = new NonTerminal("and_expression");
@@ -491,9 +465,7 @@ and_expression
 
 exclusive_or_expression
 	: and_expression {
-		auto nt = new NonTerminal("exclusive_or_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| exclusive_or_expression CARET and_expression {
 		auto nt = new NonTerminal("exclusive_or_expression");
@@ -506,9 +478,7 @@ exclusive_or_expression
 
 inclusive_or_expression
 	: exclusive_or_expression {
-		auto nt = new NonTerminal("inclusive_or_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| inclusive_or_expression PIPE exclusive_or_expression {
 		auto nt = new NonTerminal("inclusive_or_expression");
@@ -521,9 +491,7 @@ inclusive_or_expression
 
 logical_and_expression
 	: inclusive_or_expression {
-		auto nt = new NonTerminal("logical_and_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| logical_and_expression AND_OP inclusive_or_expression {
 		auto nt = new NonTerminal("logical_and_expression");
@@ -536,9 +504,7 @@ logical_and_expression
 
 logical_or_expression
 	: logical_and_expression {
-		auto nt = new NonTerminal("logical_or_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| logical_or_expression OR_OP logical_and_expression {
 		auto nt = new NonTerminal("logical_or_expression");
@@ -551,9 +517,7 @@ logical_or_expression
 
 conditional_expression
 	: logical_or_expression {
-		auto nt = new NonTerminal("conditional_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| logical_or_expression QUESTION expression COLON conditional_expression {
 		auto nt = new NonTerminal("conditional_expression");
@@ -568,9 +532,7 @@ conditional_expression
 
 assignment_expression
 	: conditional_expression {
-		auto nt = new NonTerminal("assignment_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| unary_expression assignment_operator assignment_expression {
 		auto nt = new NonTerminal("assignment_expression");
@@ -641,9 +603,7 @@ assignment_operator
 
 expression
 	: assignment_expression {
-		auto nt = new NonTerminal("expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	| expression COMMA assignment_expression {
 		auto nt = new NonTerminal("expression");
@@ -656,9 +616,7 @@ expression
 
 constant_expression
 	: conditional_expression {
-		auto nt = new NonTerminal("constant_expression");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		yylhs.value = yystack_[0].value;
 	}
 	;
 
