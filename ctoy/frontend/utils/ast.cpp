@@ -25,15 +25,10 @@ namespace frontend
         }
     }
 
-    void Terminal::print(std::ostream &os) const
-    {
-        os << "| " << std::setw(25) << std::left << lexeme
-           << " | [" << std::setw(3) << std::right << location.first
-           << "-" << std::setw(3) << std::left << location.second << "]"
-           << " | " << std::setw(15) << std::left << position
-           << " | " << std::setw(15) << std::left << token_type
-           << " |" << std::endl;
-    }
+    NonTerminal::NonTerminal(NonTerminal *lexeme)
+        : Node(lexeme->lexeme), children(lexeme->children) {}
+    Terminal::Terminal(Terminal *lexeme)
+        : Node(lexeme->lexeme), location(lexeme->location), position(lexeme->position), token_type(lexeme->token_type) {}
 
     std::ostream &operator<<(std::ostream &os, const TokenType &type)
     {

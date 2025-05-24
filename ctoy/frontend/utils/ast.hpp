@@ -41,11 +41,6 @@ namespace frontend
         Node() = default;
         Node(std::string lexeme) : lexeme(std::move(lexeme)) {}
 
-        virtual void print(std::ostream &os = std::cout) const
-        {
-            os << lexeme << std::endl;
-        }
-
         virtual void dotify(std::ostream &os = *ast_output) const = 0;
 
         virtual ~Node() = default;
@@ -58,20 +53,12 @@ namespace frontend
 
     public:
         NonTerminal() = default;
+        NonTerminal(NonTerminal *lexeme);
         NonTerminal(std::string lexeme) : Node(std::move(lexeme)) {}
 
         void add_child(Node *child) // Changed to accept raw pointer
         {
             children.push_back(child);
-        }
-
-        void print(std::ostream &os = std::cout) const override
-        {
-            os << "NonTerminal: " << lexeme << std::endl;
-            for (const auto &child : children)
-            {
-                child->print(os);
-            }
         }
 
         void dotify(std::ostream &os = *ast_output) const override
@@ -115,13 +102,13 @@ namespace frontend
 
     public:
         Terminal() = default;
+        Terminal(Terminal *lexeme);
         Terminal(std::string lexeme, location_t location, position_t position, TokenType token_type);
 
         std::string get_lexeme() const { return lexeme; }
         location_t get_location() const { return location; }
         position_t get_position() const { return position; }
         TokenType get_token_type() const { return token_type; }
-        void print(std::ostream &os = std::cout) const;
 
         void dotify(std::ostream &os = *ast_output) const override
         {

@@ -6,7 +6,8 @@
     #include <memory>
     #include <frontend/utils/ast.hpp>
     #include <frontend/lexer/frontend_lexer.hpp>
-	#include <frontend/utils/types.hpp>
+	#include <frontend/types/types.hpp>
+	#include <frontend/types/qualifiers.hpp>
 }
 
 %define api.namespace {frontend}
@@ -970,14 +971,12 @@ enumerator
 
 type_qualifier
 	: CONST {
-		auto nt = new NonTerminal("type_qualifier");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		auto q = new Qualifier(dynamic_cast<Terminal*>(yystack_[0].value), (int)QualifierSpecifiers::CONST);
+		yylhs.value = q->as_node();
 	}
 	| VOLATILE {
-		auto nt = new NonTerminal("type_qualifier");
-		nt->add_child(yystack_[0].value);
-		yylhs.value = nt;
+		auto q = new Qualifier(dynamic_cast<Terminal*>(yystack_[0].value), (int)QualifierSpecifiers::VOLATILE);
+		yylhs.value = q->as_node();
 	}
 	;
 

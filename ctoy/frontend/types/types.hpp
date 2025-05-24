@@ -1,7 +1,12 @@
+// This file contains the types all included in one file
+
 #pragma once
 
 #include <vector>
 #include <memory>
+#include <frontend/utils/ast.hpp>
+
+#include <frontend/types/qualifiers.hpp>
 
 namespace frontend
 {
@@ -29,14 +34,7 @@ namespace frontend
         FLOAT
     };
 
-    enum class Qualifier
-    {
-        NONE = -1,
-        CONST,
-        VOLATILE
-    };
-
-    enum class StorageClass
+    enum class StorageClassSpecifiers
     {
         NONE = -1,
         STATIC,
@@ -46,17 +44,29 @@ namespace frontend
         REGISTER
     };
 
+    class StorageClass : public Terminal
+    {
+    private:
+        std::vector<StorageClassSpecifiers> storage_classes;
+
+    public:
+        StorageClass();
+        StorageClass(Node *lexeme, StorageClassSpecifiers storage_class);
+        std::vector<StorageClassSpecifiers> get_storage_classes() const;
+        StorageClass operator+(const StorageClass &other) const;
+    };
+
     class BasicType
     {
     private:
         Type type;
         Rep rep;
         int width;
-        std::vector<Qualifier> qualifiers;
-        std::vector<StorageClass> storage_classes;
+        std::vector<QualifierSpecifiers> qualifiers;
+        std::vector<StorageClassSpecifiers> storage_classes;
 
     public:
-        BasicType(Type type, Rep rep, int width, std::vector<Qualifier> qualifiers = {}, std::vector<StorageClass> storage_classes = {});
+        BasicType(Type type, Rep rep, int width, Qualifier qualifiers = Qualifier(), StorageClass storage_class = StorageClass());
         void add_qualifier(Qualifier qualifier);
         void add_storage_class(StorageClass storage_class);
     };
@@ -80,13 +90,13 @@ namespace frontend
     class Int : public BasicType
     {
     public:
-        Int(int width, bool is_signed, std::vector<Qualifier> qualifiers = {}, std::vector<StorageClass> storage_classes = {});
+        Int(int width, bool is_signed, Qualifier qualifiers = Qualifier(), StorageClass storage_class = StorageClass());
     };
 
     class Float : public BasicType
     {
     public:
-        Float(int width, std::vector<Qualifier> qualifiers = {}, std::vector<StorageClass> storage_classes = {});
+        Float(int width, Qualifier qualifiers = Qualifier(), StorageClass storage_class = StorageClass());
     };
 
     class Struct : public BasicType
@@ -95,7 +105,7 @@ namespace frontend
         std::vector<std::unique_ptr<Identifier>> members;
 
     public:
-        Struct(std::vector<std::unique_ptr<Identifier>> members);
+        Struct(std::vector<std::unique_ptr<Identifier>> members, Qualifier qualifiers = Qualifier(), StorageClass storage_class = StorageClass());
     };
 
     class Union : public BasicType
@@ -104,7 +114,7 @@ namespace frontend
         std::vector<std::unique_ptr<Identifier>> members;
 
     public:
-        Union(std::vector<std::unique_ptr<Identifier>> members);
+        Union(std::vector<std::unique_ptr<Identifier>> members, Qualifier qualifiers = Qualifier(), StorageClass storage_class = StorageClass());
     };
 
     class Pointer : public BasicType
@@ -113,7 +123,7 @@ namespace frontend
         std::unique_ptr<BasicType> base;
 
     public:
-        Pointer(std::unique_ptr<BasicType> base);
+        Pointer(std::unique_ptr<BasicType> base, Qualifier qualifiers = Qualifier(), StorageClass storage_class = StorageClass());
     };
 
     class Array : public BasicType
@@ -123,7 +133,7 @@ namespace frontend
         int dim;
 
     public:
-        Array(std::unique_ptr<BasicType> base, int dim);
+        Array(std::unique_ptr<BasicType> base, int dim, Qualifier qualifiers = Qualifier(), StorageClass storage_class = StorageClass());
     };
 
     class Function : public BasicType
@@ -133,7 +143,7 @@ namespace frontend
         std::unique_ptr<BasicType> return_type;
 
     public:
-        Function(std::vector<std::unique_ptr<Identifier>> parameters, std::unique_ptr<BasicType> return_type);
+        Function(std::vector<std::unique_ptr<Identifier>> parameters, std::unique_ptr<BasicType> return_type, Qualifier qualifiers = Qualifier(), StorageClass storage_class = StorageClass());
     };
 
     class Typedef : public BasicType
@@ -142,17 +152,16 @@ namespace frontend
         std::unique_ptr<BasicType> base;
 
     public:
-        Typedef(std::unique_ptr<BasicType> base);
+        Typedef(std::unique_ptr<BasicType> base, Qualifier qualifiers = Qualifier(), StorageClass storage_class = StorageClass());
     };
 
-    // TODO: Implement enum
     class Enum : public BasicType
     {
     private:
         std::vector<std::unique_ptr<BasicType>> members;
 
     public:
-        Enum(std::vector<std::unique_ptr<BasicType>> members);
+        Enum(std::vector<std::unique_ptr<BasicType>> members, Qualifier qualifiers = Qualifier(), StorageClass storage_class = StorageClass());
     };
 
 }
